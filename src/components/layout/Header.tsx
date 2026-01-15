@@ -18,10 +18,11 @@ const Header = () => {
 
   return (
     <motion.header
-      className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-50"
+      className="border-b-4 border-brutal-black dark:border-brutal-white sticky top-0 z-50"
+      style={{ backgroundColor: 'var(--bg-primary, #FFFFFF)' }}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.1, ease: 'linear' }}
     >
       <nav className="container mx-auto px-4 py-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -29,9 +30,9 @@ const Header = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0, duration: 0.1 }}
           >
-            <Link href="/about" className="text-2xl font-bold text-gradient hover:opacity-80 transition-opacity">
+            <Link href="/about" className="text-2xl font-black text-gradient transition-brutal">
               {personalInfo.name}
             </Link>
           </motion.div>
@@ -41,24 +42,24 @@ const Header = () => {
             className="hidden md:flex space-x-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0, duration: 0.1 }}
           >
-            {navLinks.map((link, index) => {
+            {navLinks.map((link) => {
               const isActive = pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`text-lg font-medium transition-all duration-200 ${
+                  className={`text-lg font-bold transition-brutal ${
                     isActive
-                      ? 'text-blue-500 border-b-2 border-blue-500'
-                      : 'text-gray-300 hover:text-white hover:border-b-2 hover:border-gray-400'
+                      ? 'text-brutal-cyan border-b-4 border-brutal-cyan'
+                      : 'text-brutal-black dark:text-brutal-white hover:text-brutal-pink hover:border-b-4 hover:border-brutal-pink'
                   }`}
                 >
                   <motion.span
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
+                    transition={{ delay: 0, duration: 0.1 }}
                   >
                     {link.label}
                   </motion.span>
@@ -69,7 +70,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white focus:outline-none"
+            className="md:hidden text-brutal-black dark:text-brutal-white border-3 border-brutal-black dark:border-brutal-white p-2 transition-brutal hover:bg-brutal-yellow"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -78,19 +79,18 @@ const Header = () => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              strokeWidth={3}
             >
               {isMobileMenuOpen ? (
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                   d="M6 18L18 6M6 6l12 12"
                 />
               ) : (
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               )}
@@ -101,10 +101,10 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden mt-4 pb-4"
+            className="md:hidden mt-4 pb-4 border-t-3 border-brutal-black dark:border-brutal-white pt-4"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.1, ease: 'linear' }}
           >
             {navLinks.map((link) => {
               const isActive = pathname === link.path;
@@ -113,11 +113,7 @@ const Header = () => {
                   key={link.path}
                   href={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block py-2 px-4 rounded transition-colors ${
-                    isActive
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-300 hover:bg-slate-700'
-                  }`}
+                  className={`block py-3 px-4 mb-2 transition-brutal font-bold ${isActive && 'border-3'}`}
                 >
                   {link.label}
                 </Link>

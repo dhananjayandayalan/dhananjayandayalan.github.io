@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
       city: 'Delhi',
       coordinates: {
         lat: 30.6139,
-        lng: 68.2090
+        lng: 65.2090
       }
     },
     techStack: ['React', 'Node.js', 'MongoDB', 'AWS', 'Typescript', 'Redux', 'Express', 'Jest', 'Micro-frontend']
@@ -32,11 +32,11 @@ export const experiences: Experience[] = [
     location: {
       city: 'Chennai',
       coordinates: {
-        lat: 15.0827,
-        lng: 70.2707
+        lat: 14.0827,
+        lng: 68.2707
       }
     },
-    techStack: ['React', 'TypeScript', 'PostgreSQL', 'Docker', 'AWS', 'Node.js', 'Serverless']
+    techStack: ['React', 'TypeScript', 'PostgreSQL', 'Docker', 'AWS', 'Node.js', 'Serverless', 'Twilio Flex']
   }
 ];
 
@@ -86,7 +86,7 @@ export const projectCategories: ProjectCategory[] = [
 export const skills: Skill[] = [
   {
     category: 'Frontend',
-    items: ['React', 'TypeScript', 'Next.js', 'Remix', 'Vue.js', 'Tailwind CSS', 'SCSS', 'Shadcn', 'Redux', 'React Native']
+    items: ['React', 'TypeScript', 'Next.js', 'Remix', 'Vue.js', 'Tailwind CSS', 'SCSS', 'Shadcn', 'Redux', 'Zustand', 'React Native']
   },
   {
     category: 'Backend',
@@ -98,6 +98,6 @@ export const skills: Skill[] = [
   },
   {
     category: 'Tools',
-    items: ['Git', 'Figma', 'Jest', 'Vitest', 'Turborepo', 'Webpack', 'Vite', 'Twilio']
+    items: ['Git', 'Figma', 'Jest', 'Vitest', 'Turborepo', 'Webpack', 'Vite', 'Twilio Flex']
   }
 ];

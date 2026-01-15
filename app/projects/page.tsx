@@ -64,13 +64,13 @@ export default function Projects() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.1, ease: 'linear' }}
         className="text-center mb-12"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <h1 className="text-4xl md:text-5xl font-black mb-4">
           My <span className="text-gradient">Projects</span>
         </h1>
-        <p className="text-lg text-gray-400">
+        <p className="text-lg text-brutal-gray-dark dark:text-brutal-gray-light font-bold">
           A collection of my personal projects and work
         </p>
       </motion.div>
@@ -119,21 +119,21 @@ export default function Projects() {
             {currentProjects.length > 1 && (
               <>
                 <button
-                  className="hidden lg:block absolute left-2 md:left-0 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-700 light:bg-white/90 light:hover:bg-gray-100 text-theme-primary p-3 rounded-full transition-all duration-200 z-10 backdrop-blur-sm border border-card hover:scale-110 shadow-lg"
+                  className="hidden lg:block absolute left-2 md:left-0 top-1/2 -translate-y-1/2 bg-brutal-yellow border-4 border-brutal-black dark:border-brutal-white text-brutal-black p-3 rounded-none z-10 shadow-brutal-md dark:shadow-brutal-md-light"
                   onClick={() => paginate(-1)}
                   aria-label="Previous project"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <button
-                  className="hidden lg:block absolute right-2 md:right-0 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-700 light:bg-white/90 light:hover:bg-gray-100 text-theme-primary p-3 rounded-full transition-all duration-200 z-10 backdrop-blur-sm border border-card hover:scale-110 shadow-lg"
+                  className="hidden lg:block absolute right-2 md:right-0 top-1/2 -translate-y-1/2 bg-brutal-yellow border-4 border-brutal-black dark:border-brutal-white text-brutal-black p-3 rounded-none z-10 shadow-brutal-md dark:shadow-brutal-md-light"
                   onClick={() => paginate(1)}
                   aria-label="Next project"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </>
@@ -149,10 +149,10 @@ export default function Projects() {
                       setDirection(index > currentIndex ? 1 : -1);
                       setCurrentIndex(index);
                     }}
-                    className={`h-2 rounded-full transition-all duration-300 ${
+                    className={`h-3 rounded-none transition-brutal border-3 border-brutal-black dark:border-brutal-white ${
                       index === currentIndex
-                        ? 'w-8 bg-blue-500'
-                        : 'w-2 bg-gray-600 hover:bg-gray-500'
+                        ? 'w-8 bg-brutal-pink'
+                        : 'w-3 bg-brutal-white dark:bg-brutal-black hover:bg-brutal-cyan'
                     }`}
                     aria-label={`Go to project ${index + 1}`}
                   />
@@ -162,12 +162,12 @@ export default function Projects() {
 
             {/* Counter */}
             <motion.div
-              className="text-center mt-6 text-gray-400"
+              className="text-center mt-6 text-brutal-black dark:text-brutal-white"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ duration: 0.1, ease: 'linear' }}
             >
-              <span className="text-lg font-medium">
+              <span className="text-lg font-black">
                 {currentIndex + 1} / {currentProjects.length}
               </span>
             </motion.div>
@@ -175,10 +175,10 @@ export default function Projects() {
             {/* Instructions */}
             {currentProjects.length > 1 && (
               <motion.p
-                className="text-center mt-4 text-gray-500 text-sm"
+                className="text-center mt-4 text-brutal-gray-dark dark:text-brutal-gray-light text-sm font-bold"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
+                transition={{ duration: 0.1, ease: 'linear' }}
               >
                   <span className="hidden lg:inline">Drag or use arrows to navigate</span>
                   <span className="lg:hidden">Drag to Navigate</span>
@@ -189,26 +189,26 @@ export default function Projects() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-center justify-center h-[400px] text-center"
+            transition={{ duration: 0.1, ease: 'linear' }}
+            className="flex flex-col items-center justify-center h-[400px] text-center bg-brutal-white dark:bg-brutal-black border-4 border-brutal-black dark:border-brutal-white rounded-none p-8 shadow-brutal-md dark:shadow-brutal-md-light"
           >
             <svg
-              className="w-24 h-24 mb-6 text-gray-600"
+              className="w-24 h-24 mb-6 text-brutal-gray-dark dark:text-brutal-gray-light"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              strokeWidth={3}
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
+                strokeLinecap="square"
+                strokeLinejoin="miter"
                 d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
               />
             </svg>
-            <h3 className="text-2xl font-semibold mb-2 text-gray-300">
+            <h3 className="text-2xl font-black mb-2 text-brutal-black dark:text-brutal-white">
               No Projects Yet
             </h3>
-            <p className="text-gray-500 max-w-md">
+            <p className="text-brutal-gray-dark dark:text-brutal-gray-light max-w-md font-bold">
               Projects in this category will be added soon. Stay tuned!
             </p>
           </motion.div>

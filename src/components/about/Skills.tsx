@@ -2,61 +2,40 @@ import { motion } from 'framer-motion';
 import { skills } from '../../data/portfolio';
 
 const Skills = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
+  // Rotate through accent colors for skill category cards
+  const accentColors = ['bg-brutal-pink', 'bg-brutal-cyan', 'bg-brutal-yellow', 'bg-brutal-lime'];
 
   return (
-    <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {skills.map((skillCategory, index) => (
-        <motion.div
-          key={skillCategory.category}
-          className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-500/50 transition-all duration-300"
-          variants={itemVariants}
-          whileHover={{ scale: 1.05, y: -5 }}
-        >
-          <h3 className="text-xl font-bold mb-4 text-gradient">
-            {skillCategory.category}
-          </h3>
-          <ul className="space-y-2">
-            {skillCategory.items.map((skill) => (
-              <motion.li
-                key={skill}
-                className="text-gray-300 flex items-center"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                {skill}
-              </motion.li>
-            ))}
-          </ul>
-        </motion.div>
-      ))}
-    </motion.div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {skills.map((skillCategory, index) => {
+        const bgColor = accentColors[index % accentColors.length];
+
+        return (
+          <motion.div
+            key={skillCategory.category}
+            className={`${bgColor} border-4 border-brutal-black dark:border-brutal-white rounded-none p-6 shadow-brutal-md dark:shadow-brutal-md-light hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm dark:hover:shadow-brutal-sm-light transition-brutal`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.1, ease: 'linear' }}
+          >
+            <h3 className="text-xl font-black mb-4 text-brutal-black">
+              {skillCategory.category}
+            </h3>
+            <ul className="space-y-2">
+              {skillCategory.items.map((skill) => (
+                <li
+                  key={skill}
+                  className="text-brutal-black flex items-center font-semibold"
+                >
+                  <span className="w-2 h-2 bg-brutal-black border border-brutal-black mr-2 flex-shrink-0"></span>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 };
 

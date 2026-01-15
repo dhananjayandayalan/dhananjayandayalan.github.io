@@ -17,12 +17,12 @@ const ConnectionLine = ({ startX, startY, endX, endY, delay }: ConnectionLinePro
         y1={startY}
         x2={endX}
         y2={endY}
-        stroke="#3b82f6"
-        strokeWidth="0.2"
-        strokeDasharray="0.8,0.8"
+        stroke="#FF1493"
+        strokeWidth="0.3"
+        strokeDasharray="1,1"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 1.5, delay }}
+        transition={{ duration: 1, delay, ease: 'linear' }}
       />
     </motion.g>
   );

@@ -2,43 +2,47 @@
 
 @layer base {
   :root {
-    --transition-theme: 0.3s ease-in-out;
+    --transition-theme: 0.1s linear;
   }
 
   [data-theme="dark"] {
-    --bg-primary: rgb(15 23 42);
-    --bg-secondary: rgb(30 41 59);
-    --bg-tertiary: rgb(51 65 85);
+    /* Neubrutalism Dark Mode */
+    --bg-primary: rgb(0 0 0);
+    --bg-secondary: rgb(26 26 26);
     --text-primary: rgb(255 255 255);
-    --text-secondary: rgb(203 213 225);
-    --accent-from: rgb(59 130 246);
-    --accent-to: rgb(139 92 246);
-    --card-bg: rgba(30 41 59 / 0.5);
-    --card-border: rgba(71 85 105 / 0.3);
-    --shadow: rgba(0 0 0 / 0.3);
-    --blue-400: rgb(96 165 250);
-    --blue-500: rgb(59 130 246);
-    --blue-600: rgb(37 99 235);
+    --text-secondary: rgb(204 204 204);
+    --border-primary: rgb(255 255 255);
+
+    /* Vibrant accent colors */
+    --accent-pink: rgb(255 20 147);
+    --accent-cyan: rgb(0 229 255);
+    --accent-yellow: rgb(255 235 59);
+    --accent-lime: rgb(118 255 3);
+
+    /* Shadows (white for dark mode) */
+    --shadow-color: rgb(255 255 255);
   }
 
   [data-theme="light"] {
-    --bg-primary: rgb(241 245 249);
-    --bg-secondary: rgb(226 232 240);
-    --bg-tertiary: rgb(248 250 252);
-    --text-primary: rgb(15 23 42);
-    --text-secondary: rgb(51 65 85);
-    --accent-from: rgb(37 99 235);
-    --accent-to: rgb(109 40 217);
-    --card-bg: rgba(255 255 255 / 0.9);
-    --card-border: rgba(100 116 139 / 0.5);
-    --shadow: rgba(0 0 0 / 0.15);
-    --blue-400: rgb(37 99 235);
-    --blue-500: rgb(29 78 216);
-    --blue-600: rgb(30 64 175);
+    /* Neubrutalism Light Mode */
+    --bg-primary: rgb(255 255 255);
+    --bg-secondary: rgb(245 245 245);
+    --text-primary: rgb(0 0 0);
+    --text-secondary: rgb(51 51 51);
+    --border-primary: rgb(0 0 0);
+
+    /* Vibrant accent colors */
+    --accent-pink: rgb(255 20 147);
+    --accent-cyan: rgb(0 229 255);
+    --accent-yellow: rgb(255 235 59);
+    --accent-lime: rgb(118 255 3);
+
+    /* Shadows (black for light mode) */
+    --shadow-color: rgb(0 0 0);
   }
 
   body {
-    background: linear-gradient(to bottom right, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+    background: var(--bg-primary);
     color: var(--text-primary);
     min-height: 100vh;
     transition: background var(--transition-theme), color var(--transition-theme);
@@ -50,16 +54,16 @@
 }
 
 @layer utilities {
+  /* Neubrutalism Text Gradient - Now solid pink color */
   .text-gradient {
-    background: linear-gradient(to right, var(--accent-from), var(--accent-to));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--accent-pink);
+    font-weight: 900;
   }
 
   /* Theme-aware background utilities */
   .bg-card {
-    background-color: var(--card-bg);
+    background-color: var(--bg-primary);
+    border: 3px solid var(--border-primary);
   }
 
   .bg-card-solid {
@@ -68,7 +72,7 @@
 
   /* Theme-aware border utilities */
   .border-card {
-    border-color: var(--card-border);
+    border-color: var(--border-primary);
   }
 
   /* Theme-aware text utilities */
@@ -79,27 +83,41 @@
   .text-theme-secondary {
     color: var(--text-secondary);
   }
+
+  /* Brutalist shadow utilities */
+  .shadow-brutal {
+    box-shadow: 6px 6px 0 0 var(--shadow-color);
+  }
+
+  .shadow-brutal-sm {
+    box-shadow: 4px 4px 0 0 var(--shadow-color);
+  }
+
+  .shadow-brutal-lg {
+    box-shadow: 8px 8px 0 0 var(--shadow-color);
+  }
+
+  .shadow-brutal-hover {
+    box-shadow: 3px 3px 0 0 var(--shadow-color);
+  }
 }
 
 @layer components {
-  /* Override common Tailwind classes for theme support */
-  .bg-slate-800\/50 {
-    background-color: var(--card-bg) !important;
-    backdrop-filter: blur(8px);
+  /* Override glassmorphism with solid brutalist styles */
+  .bg-slate-800\/50,
+  .bg-slate-900\/50,
+  .bg-slate-900\/80,
+  .bg-slate-800\/30,
+  .bg-slate-900\/95 {
+    background-color: var(--bg-primary) !important;
+    backdrop-filter: none !important;
+    border: 3px solid var(--border-primary) !important;
   }
 
-  .bg-slate-900\/50 {
-    background-color: var(--bg-tertiary) !important;
-    backdrop-filter: blur(8px);
-  }
-
-  .bg-slate-900\/80 {
-    background: var(--bg-tertiary) !important;
-    backdrop-filter: blur(8px);
-  }
-
-  .border-slate-700 {
-    border-color: var(--card-border) !important;
+  .border-slate-700,
+  .border-slate-600 {
+    border-color: var(--border-primary) !important;
+    border-width: 3px !important;
   }
 
   .text-white {
@@ -112,12 +130,14 @@
 
   .text-gray-400 {
     color: var(--text-secondary) !important;
-    opacity: 0.8;
   }
 
   .text-gray-500 {
     color: var(--text-secondary) !important;
-    opacity: 0.6;
+  }
+
+  .text-gray-600 {
+    color: var(--text-secondary) !important;
   }
 
   .hover\:text-white:hover {
@@ -130,139 +150,106 @@
     }
   }
 
-  /* Theme-aware blue color utilities */
-  .text-blue-400 {
-    color: var(--blue-400) !important;
-  }
-
-  .text-blue-500 {
-    color: var(--blue-500) !important;
+  /* Brutalist accent colors */
+  .text-blue-400,
+  .text-blue-500,
+  .text-blue-300 {
+    color: var(--accent-cyan) !important;
   }
 
   .hover\:text-blue-300:hover {
-    color: var(--blue-400) !important;
+    color: var(--accent-pink) !important;
   }
 
   .bg-blue-600\/20 {
-    background-color: color-mix(in srgb, var(--blue-600) 20%, transparent) !important;
+    background-color: var(--accent-cyan) !important;
   }
 
   .group-hover\:bg-blue-600\/30 {
     .group:hover & {
-      background-color: color-mix(in srgb, var(--blue-600) 30%, transparent) !important;
+      background-color: var(--accent-pink) !important;
     }
   }
 
-  .text-blue-300 {
-    color: var(--blue-400) !important;
-  }
-
-  .border-blue-500\/30 {
-    border-color: color-mix(in srgb, var(--blue-500) 30%, transparent) !important;
+  .border-blue-500\/30,
+  .border-blue-500 {
+    border-color: var(--border-primary) !important;
+    border-width: 3px !important;
   }
 
   .hover\:border-blue-500\/50:hover {
-    border-color: color-mix(in srgb, var(--blue-500) 50%, transparent) !important;
+    border-color: var(--accent-cyan) !important;
   }
 
-  /* Gradient backgrounds for light theme compatibility */
-  .bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, var(--from-color, transparent), var(--to-color, transparent));
-  }
-
-  .from-blue-600\/20 {
-    --from-color: color-mix(in srgb, var(--blue-600) 20%, transparent);
-  }
-
+  /* Remove gradient backgrounds - use solid colors */
+  .bg-gradient-to-br,
+  .from-blue-600\/20,
   .to-purple-600\/20 {
-    --to-color: color-mix(in srgb, rgb(147 51 234) 20%, transparent);
-  }
-
-  /* Active link color for header */
-  .border-blue-500 {
-    border-color: var(--blue-500) !important;
+    background: var(--accent-pink) !important;
   }
 
   /* Mobile menu background */
   .hover\:bg-slate-700:hover {
-    background-color: var(--bg-tertiary) !important;
+    background-color: var(--bg-secondary) !important;
   }
 
   .bg-blue-600 {
-    background-color: var(--blue-600) !important;
-  }
-
-  /* Form input styling */
-  .border-slate-600 {
-    border-color: var(--card-border) !important;
+    background-color: var(--accent-yellow) !important;
   }
 
   .placeholder-gray-500::placeholder {
     color: var(--text-secondary);
-    opacity: 0.5;
   }
 
-  /* Additional gray text utilities */
   .group-hover\:text-gray-400 {
     .group:hover & {
       color: var(--text-secondary) !important;
-      opacity: 0.8;
     }
   }
 
   .hover\:border-gray-400:hover {
-    border-color: var(--card-border) !important;
-  }
-
-  /* Additional background variants */
-  .bg-slate-800\/30 {
-    background-color: color-mix(in srgb, var(--card-bg) 60%, transparent) !important;
-    backdrop-filter: blur(8px);
-  }
-
-  .bg-slate-900\/95 {
-    background-color: var(--bg-tertiary) !important;
-    opacity: 0.95;
-    backdrop-filter: blur(8px);
-  }
-
-  /* Additional text variants */
-  .text-gray-600 {
-    color: var(--text-secondary) !important;
-    opacity: 0.5;
+    border-color: var(--border-primary) !important;
   }
 
   /* Light mode specific overrides */
   [data-theme="light"] .bg-slate-800\/80,
   [data-theme="light"] .bg-slate-800\/30 {
-    background-color: rgba(255 255 255 / 0.9) !important;
-    border-color: var(--card-border) !important;
+    background-color: var(--bg-primary) !important;
+    border-color: var(--border-primary) !important;
   }
 
-  [data-theme="light"] .text-gray-400 {
-    color: rgb(71 85 105) !important;
-    opacity: 1;
-  }
-
-  [data-theme="light"] .text-gray-500 {
-    color: rgb(71 85 105) !important;
-    opacity: 0.85;
-  }
-
+  [data-theme="light"] .text-gray-400,
+  [data-theme="light"] .text-gray-500,
   [data-theme="light"] .text-gray-600 {
-    color: rgb(51 65 85) !important;
-    opacity: 1;
+    color: var(--text-secondary) !important;
   }
 
   [data-theme="light"] .bg-blue-600\/20 {
-    background-color: color-mix(in srgb, rgb(37 99 235) 15%, transparent) !important;
+    background-color: var(--accent-cyan) !important;
   }
 
-  [data-theme="light"] .text-blue-300 {
-    color: rgb(29 78 216) !important;
-  }
-
+  [data-theme="light"] .text-blue-300,
   [data-theme="light"] .text-blue-400 {
-    color: rgb(29 78 216) !important;
+    color: var(--accent-cyan) !important;
+  }
+
+  /* Brutalist button styles */
+  .btn-brutal {
+    border: 3px solid var(--border-primary);
+    border-radius: 0;
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    transition: all 0.1s linear;
+    box-shadow: 4px 4px 0 0 var(--shadow-color);
+  }
+
+  .btn-brutal:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--shadow-color);
+  }
+
+  .btn-brutal:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
   }
 }
