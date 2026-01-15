@@ -66,6 +66,13 @@ export const projectCategories: ProjectCategory[] = [
         techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
         githubUrl: 'https://github.com/dhananjayandayalan/cheerify',
         liveUrl: 'https://dhananjayan-d.vercel.app'
+      },
+      {
+        id: 4,
+        name: 'Real Time Collaboration Project Management System',
+        description: 'My personal portfolio website showcasing my projects, skills, and experience.',
+        techStack: ['React', 'Node.js', 'Express.js', 'Typescript', 'Redux Toolkit', 'Web Socket', 'Docker', 'PostgreSQL', 'Redis', 'Micro-Services', 'CSS'],
+        githubUrl: 'https://github.com/dhananjayandayalan/real-time-collaboration-project-management-system'
       }
     ]
   },
