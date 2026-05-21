@@ -41,12 +41,12 @@ export default function About() {
           My <span className="text-gradient">Journey</span>
         </h2>
         <ExperienceMap />
-        <div className='text-center text-xs my-3 space-y-1'>
-          <p className='text-brutal-gray-dark dark:text-brutal-gray-light font-bold'>
-            *Try <span className='text-gradient font-black'>Clicking</span> (or) <span className='text-gradient font-black'>Hovering</span> on both Company Name and Location Pin
+        <div className="text-center text-xs my-3 space-y-1">
+          <p className="text-brutal-gray-dark dark:text-brutal-gray-light font-bold">
+            *Try <span className="text-gradient font-black">Clicking</span> (or) <span className="text-gradient font-black">Hovering</span> on both Company Name and Location Pin
           </p>
-          <p className='text-brutal-gray-dark dark:text-brutal-gray-light font-bold hidden md:block'>
-            *<span className='text-gradient font-black'>Drag</span> to pan • <span className='text-gradient font-black'>Scroll</span> to zoom • Use <span className='text-gradient font-black'>controls</span> on the right
+          <p className="text-brutal-gray-dark dark:text-brutal-gray-light font-bold hidden md:block">
+            *Starts focused on the <span className="text-gradient font-black">current role</span> • Use the <span className="text-gradient font-black">world</span> and <span className="text-gradient font-black">radius</span> buttons to switch views
           </p>
         </div>
       </motion.section>

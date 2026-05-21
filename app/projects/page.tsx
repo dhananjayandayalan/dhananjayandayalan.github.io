@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from '@/components/projects/ProjectCard';
 import TabSwitch from '@/components/projects/TabSwitch';
@@ -10,6 +10,7 @@ export default function Projects() {
   const [activeTab, setActiveTab] = useState(projectCategories[0]?.id || 'hobby');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const currentProjects = useMemo(() => {
     const category = projectCategories.find(cat => cat.id === activeTab);
@@ -59,6 +60,35 @@ export default function Projects() {
     });
   };
 
+  useLayoutEffect(() => {
+    const carouselElement = carouselRef.current;
+    if (!carouselElement) return;
+
+    const preventPinchZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const preventGestureZoom = (e: Event) => {
+      e.preventDefault();
+    };
+
+    carouselElement.addEventListener('touchstart', preventPinchZoom, { passive: false });
+    carouselElement.addEventListener('touchmove', preventPinchZoom, { passive: false });
+    carouselElement.addEventListener('gesturestart', preventGestureZoom, { passive: false } as AddEventListenerOptions);
+    carouselElement.addEventListener('gesturechange', preventGestureZoom, { passive: false } as AddEventListenerOptions);
+    carouselElement.addEventListener('gestureend', preventGestureZoom, { passive: false } as AddEventListenerOptions);
+
+    return () => {
+      carouselElement.removeEventListener('touchstart', preventPinchZoom);
+      carouselElement.removeEventListener('touchmove', preventPinchZoom);
+      carouselElement.removeEventListener('gesturestart', preventGestureZoom);
+      carouselElement.removeEventListener('gesturechange', preventGestureZoom);
+      carouselElement.removeEventListener('gestureend', preventGestureZoom);
+    };
+  }, []);
+
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
@@ -83,7 +113,10 @@ export default function Projects() {
         {currentProjects.length > 0 ? (
           <>
             {/* Carousel */}
-            <div className="relative min-h-[680px] max-[460px]:min-h-[760px] md:h-[550px] md:min-h-0 overflow-visible md:overflow-hidden">
+            <div
+              ref={carouselRef}
+              className="relative min-h-[680px] max-[460px]:min-h-[760px] md:h-[550px] md:min-h-0 overflow-visible md:overflow-hidden"
+            >
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
                   key={`${activeTab}-${currentIndex}`}
