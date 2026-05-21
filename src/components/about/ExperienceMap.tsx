@@ -34,6 +34,7 @@ const ExperienceMap = () => {
   const [initialDistance, setInitialDistance] = useState<number | null>(null);
   const [initialViewBoxForPinch, setInitialViewBoxForPinch] = useState<ViewBox | null>(null);
 
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const contentGroupRef = useRef<SVGGElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -297,6 +298,42 @@ const ExperienceMap = () => {
     }
   }, []);
 
+  // Block browser/page zoom while interacting inside the map.
+  useLayoutEffect(() => {
+    const mapElement = mapContainerRef.current;
+    if (!mapElement) return;
+
+    const preventWheelZoom = (e: WheelEvent) => {
+      e.preventDefault();
+    };
+
+    const preventPinchZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const preventGestureZoom = (e: Event) => {
+      e.preventDefault();
+    };
+
+    mapElement.addEventListener('wheel', preventWheelZoom, { passive: false });
+    mapElement.addEventListener('touchstart', preventPinchZoom, { passive: false });
+    mapElement.addEventListener('touchmove', preventPinchZoom, { passive: false });
+    mapElement.addEventListener('gesturestart', preventGestureZoom, { passive: false } as AddEventListenerOptions);
+    mapElement.addEventListener('gesturechange', preventGestureZoom, { passive: false } as AddEventListenerOptions);
+    mapElement.addEventListener('gestureend', preventGestureZoom, { passive: false } as AddEventListenerOptions);
+
+    return () => {
+      mapElement.removeEventListener('wheel', preventWheelZoom);
+      mapElement.removeEventListener('touchstart', preventPinchZoom);
+      mapElement.removeEventListener('touchmove', preventPinchZoom);
+      mapElement.removeEventListener('gesturestart', preventGestureZoom);
+      mapElement.removeEventListener('gesturechange', preventGestureZoom);
+      mapElement.removeEventListener('gestureend', preventGestureZoom);
+    };
+  }, []);
+
   // Cleanup animation frame on unmount
   useLayoutEffect(() => {
     return () => {
@@ -309,7 +346,10 @@ const ExperienceMap = () => {
   return (
     <div className="relative w-full max-w-5xl mx-auto">
       {/* Map Container */}
-      <div className="relative bg-brutal-white dark:bg-brutal-black rounded-none p-8 md:p-12 border-4 border-brutal-black dark:border-brutal-white overflow-hidden shadow-brutal-lg dark:shadow-brutal-lg-light">
+      <div
+        ref={mapContainerRef}
+        className="relative bg-brutal-white dark:bg-brutal-black rounded-none p-8 md:p-12 border-4 border-brutal-black dark:border-brutal-white overflow-hidden shadow-brutal-lg dark:shadow-brutal-lg-light"
+      >
         {/* Map Controls */}
         <div className="absolute top-4 right-4 z-30 flex flex-col gap-2">
           {/* Zoom In Button */}

@@ -83,7 +83,7 @@ export default function Projects() {
         {currentProjects.length > 0 ? (
           <>
             {/* Carousel */}
-            <div className="relative h-[600px] md:h-[550px] flex items-center justify-center overflow-hidden">
+            <div className="relative min-h-[680px] max-[460px]:min-h-[760px] md:h-[550px] md:min-h-0 overflow-visible md:overflow-hidden">
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
                   key={`${activeTab}-${currentIndex}`}
@@ -97,8 +97,10 @@ export default function Projects() {
                     opacity: { duration: 0.2 }
                   }}
                   drag="x"
+                  dragDirectionLock
                   dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={1}
+                  dragElastic={0.12}
+                  dragMomentum={false}
                   onDragEnd={(_, { offset, velocity }) => {
                     const swipe = swipePower(offset.x, velocity.x);
 
@@ -108,7 +110,8 @@ export default function Projects() {
                       paginate(-1);
                     }
                   }}
-                  className="absolute w-full max-w-2xl px-4 cursor-grab active:cursor-grabbing"
+                  style={{ touchAction: 'pan-y' }}
+                  className="absolute inset-x-0 top-0 mx-auto w-full max-w-2xl px-4 cursor-grab active:cursor-grabbing md:inset-y-0"
                 >
                   <ProjectCard project={currentProjects[currentIndex]} />
                 </motion.div>
