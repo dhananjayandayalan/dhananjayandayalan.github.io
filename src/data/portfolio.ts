@@ -73,6 +73,13 @@ export const projectCategories: ProjectCategory[] = [
         description: 'My personal portfolio website showcasing my projects, skills, and experience.',
         techStack: ['React', 'Node.js', 'Express.js', 'Typescript', 'Redux Toolkit', 'Web Socket', 'Docker', 'PostgreSQL', 'Redis', 'Micro-Services', 'CSS'],
         githubUrl: 'https://github.com/dhananjayandayalan/real-time-collaboration-project-management-system'
+      },
+      {
+        id: 5,
+        name: 'Momentum UI',
+        description: 'Creating a unique set of Components for a Niche Usecase',
+        techStack: ['React', 'Vue', 'Angular', 'Svelte', 'Storybook', 'Turborepo', 'pnpm', 'Codex', 'Claude Code'],
+        githubUrl: 'https://github.com/dhananjayandayalan/momentum-ui'
       }
     ]
   },
