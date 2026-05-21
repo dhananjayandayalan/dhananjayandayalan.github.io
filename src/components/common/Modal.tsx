@@ -49,7 +49,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-9999 flex items-center justify-center p-4"
+          className="fixed inset-0 z-9999 flex items-start justify-center overflow-y-auto p-2 pt-4 sm:items-center sm:p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -62,7 +62,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
           {/* Modal Content */}
           <motion.div
             ref={modalRef}
-            className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto border-4 border-brutal-black dark:border-brutal-white rounded-none shadow-brutal-lg dark:shadow-brutal-lg-light"
+            className="relative z-10 my-auto w-full max-w-2xl max-h-[calc(100dvh-1rem)] overflow-y-auto border-4 border-brutal-black dark:border-brutal-white rounded-none shadow-brutal-lg dark:shadow-brutal-lg-light sm:max-h-[90vh]"
             style={{ backgroundColor: 'var(--bg-primary, #FFFFFF)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,7 +73,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="sticky top-4 left-full ml-auto mr-4 z-20 bg-brutal-pink text-brutal-white p-2 rounded-none transition-brutal border-3 border-brutal-black dark:border-brutal-white hover:translate-x-[2px] hover:translate-y-[2px]"
+              className="sticky top-2 left-full ml-auto mr-2 mt-2 z-20 bg-brutal-pink text-brutal-white p-2 rounded-none transition-brutal border-3 border-brutal-black dark:border-brutal-white hover:translate-x-[2px] hover:translate-y-[2px] sm:top-4 sm:mr-4 sm:mt-4"
               aria-label="Close modal"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -82,7 +82,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
             </button>
 
             {/* Content */}
-            <div className="p-6 pt-2">
+            <div className="p-4 pt-2 sm:p-6 sm:pt-2">
               {children}
             </div>
           </motion.div>
