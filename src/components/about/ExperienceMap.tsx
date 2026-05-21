@@ -383,12 +383,6 @@ const ExperienceMap = () => {
           </motion.button>
         </div>
 
-        <div className="absolute top-4 left-4 z-30 bg-brutal-white/90 dark:bg-brutal-black/90 border-2 border-brutal-black dark:border-brutal-white px-3 py-2 text-xs font-bold md:hidden">
-          <p className="text-brutal-black dark:text-brutal-white">
-            Starts at current role | Pinch to zoom | Drag to pan
-          </p>
-        </div>
-
         <svg
           ref={svgRef}
           className={`relative z-20 w-full h-[400px] md:h-[500px] ${isPanning ? 'cursor-grabbing' : 'cursor-grab'}`}
