@@ -342,12 +342,12 @@ const ExperienceMap = () => {
     <div className="relative w-full max-w-5xl mx-auto">
       <div
         ref={mapContainerRef}
-        className="relative bg-brutal-white dark:bg-brutal-black rounded-none p-8 md:p-12 border-4 border-brutal-black dark:border-brutal-white overflow-hidden shadow-brutal-lg dark:shadow-brutal-lg-light"
+        className="relative overflow-hidden rounded-none border-4 border-foreground-primary bg-foreground-inverse p-8 shadow-soft-lg dark:border-foreground-inverse dark:bg-foreground-primary md:p-12"
       >
         <div className="absolute top-4 right-4 z-30 flex flex-col gap-2">
           <motion.button
             onClick={() => handleZoom(-1)}
-            className="w-10 h-10 md:w-12 md:h-12 bg-brutal-yellow border-3 border-brutal-black dark:border-brutal-white shadow-brutal hover:shadow-brutal-lg transition-all flex items-center justify-center text-brutal-black"
+            className="flex h-10 w-10 items-center justify-center bg-surface-muted text-foreground-primary shadow-soft transition-all hover:shadow-soft-lg md:h-12 md:w-12 border-3 border-foreground-primary dark:border-foreground-inverse"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Zoom in"
@@ -359,7 +359,7 @@ const ExperienceMap = () => {
 
           <motion.button
             onClick={() => handleZoom(1)}
-            className="w-10 h-10 md:w-12 md:h-12 bg-brutal-cyan border-3 border-brutal-black dark:border-brutal-white shadow-brutal hover:shadow-brutal-lg transition-all flex items-center justify-center text-brutal-black"
+            className="flex h-10 w-10 items-center justify-center bg-accent-secondary text-foreground-primary shadow-soft transition-all hover:shadow-soft-lg md:h-12 md:w-12 border-3 border-foreground-primary dark:border-foreground-inverse"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Zoom out"
@@ -371,7 +371,7 @@ const ExperienceMap = () => {
 
           <motion.button
             onClick={resetView}
-            className="w-10 h-10 md:w-12 md:h-12 bg-brutal-pink border-3 border-brutal-black dark:border-brutal-white shadow-brutal hover:shadow-brutal-lg transition-all flex items-center justify-center text-brutal-black"
+            className="flex h-10 w-10 items-center justify-center bg-accent-primary text-foreground-primary shadow-soft transition-all hover:shadow-soft-lg md:h-12 md:w-12 border-3 border-foreground-primary dark:border-foreground-inverse"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label={`Reset to ${currentExperience.location.city}`}

@@ -23,12 +23,6 @@ export interface Project {
   imageUrl?: string;
 }
 
-export interface ProjectCategory {
-  id: string;
-  name: string;
-  projects: Project[];
-}
-
 export interface ContactFormData {
   name: string;
   email: string;

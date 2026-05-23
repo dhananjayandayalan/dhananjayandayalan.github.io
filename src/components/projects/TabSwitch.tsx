@@ -8,16 +8,16 @@ interface TabSwitchProps {
 
 const TabSwitch = ({ tabs, activeTab, onTabChange }: TabSwitchProps) => {
   return (
-    <div className='flex justify-center mb-8'>
-      <div className='inline-flex bg-brutal-white dark:bg-brutal-black rounded-none p-2 gap-2 border-4 border-brutal-black dark:border-brutal-white shadow-brutal-sm dark:shadow-brutal-sm-light'>
+    <div className="mb-8 flex justify-center">
+      <div className="inline-flex gap-2 rounded-full border border-[color:var(--border-primary)] bg-[color:var(--bg-secondary)] p-1.5 shadow-soft-sm">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`relative px-6 py-2.5 rounded-none text-sm font-black transition-brutal ${
+            className={`relative rounded-full px-6 py-2.5 text-sm font-medium transition-smooth ${
               activeTab === tab.id
-                ? 'bg-brutal-pink border-3 border-brutal-black dark:border-brutal-white shadow-brutal-sm dark:shadow-brutal-sm-light'
-                : 'text-brutal-black! dark:text-brutal-white bg-brutal-white dark:bg-brutal-black border-3 border-transparent hover:bg-brutal-cyan hover:text-brutal-black'
+                ? 'bg-accent-primary text-foreground-inverse shadow-soft-sm'
+                : 'bg-transparent text-foreground-muted hover:bg-[color:var(--bg-elevated)] hover:text-foreground-primary dark:text-foreground-subtle dark:hover:text-foreground-inverse'
             }`}
           >
             {tab.name}

@@ -12,7 +12,7 @@ const ExperienceCard = ({ company, position, posX, posY }: ExperienceCardProps) 
   const { theme } = useTheme();
   return (
     <motion.div
-      className="absolute bg-brutal-yellow dark:bg-brutal-lime border-2 sm:border-3 md:border-4 border-brutal-black dark:border-brutal-white rounded-none p-2 sm:p-2.5 md:p-3 shadow-brutal-sm sm:shadow-brutal-md dark:shadow-brutal-sm-light dark:sm:shadow-brutal-md-light z-50 min-w-40 sm:min-w-[200px] md:min-w-[220px] max-w-[200px] sm:max-w-60 md:max-w-[280px] pointer-events-none"
+      className="absolute z-50 min-w-40 max-w-[200px] rounded-none border-2 border-foreground-primary bg-surface-muted p-2 shadow-soft-sm pointer-events-none sm:min-w-[200px] sm:max-w-60 sm:border-3 sm:p-2.5 sm:shadow-soft-md md:min-w-[220px] md:max-w-[280px] md:border-4 md:p-3 dark:border-foreground-inverse dark:bg-surface-subtle"
       style={{
         left: `${posX}%`,
         top: `${posY}%`,
@@ -25,8 +25,8 @@ const ExperienceCard = ({ company, position, posX, posY }: ExperienceCardProps) 
       transition={{ duration: 0.1, ease: 'linear' }}
     >
       <div className="space-y-1 sm:space-y-1.5">
-        <h3 className="text-xs sm:text-sm md:text-sm font-black text-brutal-black dark:text-brutal-black leading-tight">{company}</h3>
-        <p className="text-[10px] sm:text-xs md:text-xs text-brutal-black dark:text-brutal-black font-bold leading-tight">{position}</p>
+        <h3 className="text-xs font-black leading-tight text-foreground-primary dark:text-foreground-primary sm:text-sm md:text-sm">{company}</h3>
+        <p className="text-[10px] font-bold leading-tight text-foreground-primary dark:text-foreground-primary sm:text-xs md:text-xs">{position}</p>
       </div>
     </motion.div>
   );

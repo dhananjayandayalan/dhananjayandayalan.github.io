@@ -5,10 +5,12 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../../data/portfolio';
 import { useState } from 'react';
+import { useTheme } from '@/context/ThemeContext';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   const navLinks = [
     { path: '/about', label: 'About' },
@@ -18,31 +20,29 @@ const Header = () => {
 
   return (
     <motion.header
-      className="border-b-4 border-brutal-black dark:border-brutal-white sticky top-0 z-50"
-      style={{ backgroundColor: 'var(--bg-primary, #FFFFFF)' }}
+      className="sticky top-0 z-50 border-b border-[color:var(--border-primary)] backdrop-blur"
+      style={{ backgroundColor: theme === 'light' ? 'rgba(255, 255, 255, 0.94)' : 'rgba(15, 23, 42, 0.92)' }}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.1, ease: 'linear' }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
     >
       <nav className="container mx-auto px-4 py-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo/Name */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0, duration: 0.1 }}
+            transition={{ delay: 0, duration: 0.2 }}
           >
-            <Link href="/about" className="text-2xl font-black text-gradient transition-brutal">
+            <Link href="/about" className="text-2xl font-extrabold text-gradient transition-smooth">
               {personalInfo.name}
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation */}
           <motion.div
             className="hidden md:flex space-x-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0, duration: 0.1 }}
+            transition={{ delay: 0, duration: 0.2 }}
           >
             {navLinks.map((link) => {
               const isActive = pathname === link.path;
@@ -50,16 +50,21 @@ const Header = () => {
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`text-lg font-bold transition-brutal ${
+                  className={`border-b-2 pb-1 text-lg font-medium transition-smooth ${
                     isActive
-                      ? 'text-brutal-cyan border-b-4 border-brutal-cyan'
-                      : 'text-brutal-black dark:text-brutal-white hover:text-brutal-pink hover:border-b-4 hover:border-brutal-pink'
+                      ? 'border-accent-primary text-accent-primary'
+                      : 'border-transparent hover:border-accent-primary hover:text-accent-primary'
                   }`}
+                  style={
+                    isActive
+                      ? undefined
+                      : { color: theme === 'light' ? '#334155' : '#E2E8F0' }
+                  }
                 >
                   <motion.span
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0, duration: 0.1 }}
+                    transition={{ delay: 0, duration: 0.2 }}
                   >
                     {link.label}
                   </motion.span>
@@ -68,9 +73,8 @@ const Header = () => {
             })}
           </motion.div>
 
-          {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-brutal-black dark:text-brutal-white border-3 border-brutal-black dark:border-brutal-white p-2 transition-brutal hover:bg-brutal-yellow"
+            className="md:hidden rounded-full border border-[color:var(--border-primary)] p-2 text-foreground-primary transition-smooth hover:bg-[color:var(--bg-elevated)] dark:text-foreground-inverse"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -98,13 +102,12 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden mt-4 pb-4 border-t-3 border-brutal-black dark:border-brutal-white pt-4"
+            className="mt-4 border-t border-[color:var(--border-primary)] pb-4 pt-4 md:hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            transition={{ duration: 0.1, ease: 'linear' }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
             {navLinks.map((link) => {
               const isActive = pathname === link.path;
@@ -113,7 +116,16 @@ const Header = () => {
                   key={link.path}
                   href={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block py-3 px-4 mb-2 transition-brutal font-bold ${isActive && 'border-3'}`}
+                  className={`mb-2 block rounded-xl px-4 py-3 transition-smooth ${
+                    isActive
+                      ? 'bg-[color:var(--accent-soft)] text-accent-primary'
+                      : 'hover:bg-[color:var(--bg-elevated)]'
+                  }`}
+                  style={
+                    isActive
+                      ? undefined
+                      : { color: theme === 'light' ? '#334155' : '#E2E8F0' }
+                  }
                 >
                   {link.label}
                 </Link>

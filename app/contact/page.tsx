@@ -10,13 +10,13 @@ export default function Contact() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.1, ease: 'linear' }}
-        className="text-center mb-12"
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="mb-12 text-center"
       >
-        <h1 className="text-4xl md:text-5xl font-black mb-4">
+        <h1 className="mb-4 text-4xl font-extrabold md:text-5xl">
           Get in <span className="text-gradient">Touch</span>
         </h1>
-        <p className="text-lg text-brutal-gray-dark dark:text-brutal-gray-light max-w-2xl mx-auto font-bold">
+        <p className="mx-auto max-w-2xl text-lg text-foreground-muted dark:text-foreground-subtle">
           Have a question or want to work together? I'd love to hear from you!
         </p>
       </motion.div>

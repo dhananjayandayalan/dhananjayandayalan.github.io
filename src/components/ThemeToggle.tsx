@@ -8,14 +8,13 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed bottom-6 right-6 z-50 p-4 rounded-none shadow-brutal-md dark:shadow-brutal-md-light border-4 border-brutal-black dark:border-brutal-white"
-      style={{ background: theme == 'dark' ? '#000' : '#fff' }}
+      className="fixed bottom-6 right-6 z-50 rounded-full border border-[color:var(--border-primary)] p-4 shadow-soft-md"
+      style={{ background: 'var(--bg-secondary)' }}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       <div className="relative w-6 h-6">
-        {/* Sun Icon */}
         <svg
-          className={`absolute inset-0 w-6 h-6 transition-brutal text-brutal-black ${
+          className={`absolute inset-0 w-6 h-6 transition-smooth text-amber-500 ${
             theme === 'light'
               ? 'rotate-0 opacity-100'
               : 'rotate-90 opacity-0'
@@ -32,9 +31,8 @@ const ThemeToggle = () => {
           />
         </svg>
 
-        {/* Moon Icon */}
         <svg
-          className={`absolute inset-0 w-6 h-6 transition-brutal text-brutal-white ${
+          className={`absolute inset-0 w-6 h-6 transition-smooth text-sky-400 ${
             theme === 'dark'
               ? 'rotate-0 opacity-100'
               : '-rotate-90 opacity-0'

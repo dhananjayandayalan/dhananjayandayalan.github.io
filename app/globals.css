@@ -2,80 +2,85 @@
 
 @layer base {
   :root {
-    --transition-theme: 0.1s linear;
+    --transition-theme: 0.2s ease;
+    --radius-sm: 0.75rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
   }
 
   [data-theme="dark"] {
-    /* Neubrutalism Dark Mode */
-    --bg-primary: rgb(0 0 0);
-    --bg-secondary: rgb(26 26 26);
-    --text-primary: rgb(255 255 255);
-    --text-secondary: rgb(204 204 204);
-    --border-primary: rgb(255 255 255);
-
-    /* Vibrant accent colors */
-    --accent-pink: rgb(255 20 147);
-    --accent-cyan: rgb(0 229 255);
-    --accent-yellow: rgb(255 235 59);
-    --accent-lime: rgb(118 255 3);
-
-    /* Shadows (white for dark mode) */
-    --shadow-color: rgb(255 255 255);
+    --bg-primary: rgb(2 6 23);
+    --bg-secondary: rgb(15 23 42);
+    --bg-elevated: rgb(30 41 59);
+    --text-primary: rgb(241 245 249);
+    --text-secondary: rgb(148 163 184);
+    --border-primary: rgb(51 65 85);
+    --accent-primary: rgb(96 165 250);
+    --accent-secondary: rgb(45 212 191);
+    --accent-soft: rgb(30 41 59);
+    --shadow-color: rgb(2 6 23 / 0.4);
   }
 
   [data-theme="light"] {
-    /* Neubrutalism Light Mode */
-    --bg-primary: rgb(255 255 255);
-    --bg-secondary: rgb(245 245 245);
-    --text-primary: rgb(0 0 0);
-    --text-secondary: rgb(51 51 51);
-    --border-primary: rgb(0 0 0);
+    --bg-primary: rgb(248 250 252);
+    --bg-secondary: rgb(255 255 255);
+    --bg-elevated: rgb(241 245 249);
+    --text-primary: rgb(15 23 42);
+    --text-secondary: rgb(71 85 105);
+    --border-primary: rgb(226 232 240);
+    --accent-primary: rgb(37 99 235);
+    --accent-secondary: rgb(13 148 136);
+    --accent-soft: rgb(239 246 255);
+    --shadow-color: rgb(15 23 42 / 0.08);
+  }
 
-    /* Vibrant accent colors */
-    --accent-pink: rgb(255 20 147);
-    --accent-cyan: rgb(0 229 255);
-    --accent-yellow: rgb(255 235 59);
-    --accent-lime: rgb(118 255 3);
-
-    /* Shadows (black for light mode) */
-    --shadow-color: rgb(0 0 0);
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    background: var(--bg-primary);
+    background:
+      radial-gradient(circle at top, rgb(148 163 184 / 0.14), transparent 32%),
+      linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
     color: var(--text-primary);
     min-height: 100vh;
     transition: background var(--transition-theme), color var(--transition-theme);
   }
 
   * {
-    transition: background-color var(--transition-theme), border-color var(--transition-theme), color var(--transition-theme);
+    transition:
+      background-color var(--transition-theme),
+      border-color var(--transition-theme),
+      color var(--transition-theme),
+      box-shadow var(--transition-theme),
+      transform var(--transition-theme);
+  }
+
+  ::selection {
+    background: rgb(96 165 250 / 0.22);
   }
 }
 
 @layer utilities {
-  /* Neubrutalism Text Gradient - Now solid pink color */
   .text-gradient {
-    color: var(--accent-pink);
-    font-weight: 900;
+    color: var(--accent-primary);
   }
 
-  /* Theme-aware background utilities */
   .bg-card {
-    background-color: var(--bg-primary);
-    border: 3px solid var(--border-primary);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    box-shadow: 0 14px 36px -24px var(--shadow-color);
   }
 
   .bg-card-solid {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-elevated);
   }
 
-  /* Theme-aware border utilities */
   .border-card {
     border-color: var(--border-primary);
   }
 
-  /* Theme-aware text utilities */
   .text-theme-primary {
     color: var(--text-primary);
   }
@@ -84,58 +89,55 @@
     color: var(--text-secondary);
   }
 
-  /* Brutalist shadow utilities */
-  .shadow-brutal {
-    box-shadow: 6px 6px 0 0 var(--shadow-color);
+  .shadow-soft,
+  .shadow-soft-sm,
+  .shadow-soft-md,
+  .shadow-soft-lg,
+  .shadow-soft-hover {
+    box-shadow: 0 16px 30px -24px var(--shadow-color);
   }
 
-  .shadow-brutal-sm {
-    box-shadow: 4px 4px 0 0 var(--shadow-color);
-  }
-
-  .shadow-brutal-lg {
-    box-shadow: 8px 8px 0 0 var(--shadow-color);
-  }
-
-  .shadow-brutal-hover {
-    box-shadow: 3px 3px 0 0 var(--shadow-color);
+  .transition-smooth {
+    transition: all 0.2s ease;
   }
 }
 
 @layer components {
-  /* Override glassmorphism with solid brutalist styles */
+  .rounded-none {
+    border-radius: var(--radius-md) !important;
+  }
+
+  .border-4,
+  .border-3 {
+    border-width: 1px !important;
+  }
+
   .bg-slate-800\/50,
   .bg-slate-900\/50,
   .bg-slate-900\/80,
   .bg-slate-800\/30,
   .bg-slate-900\/95 {
-    background-color: var(--bg-primary) !important;
-    backdrop-filter: none !important;
-    border: 3px solid var(--border-primary) !important;
+    background-color: color-mix(in srgb, var(--bg-secondary) 92%, transparent) !important;
+    backdrop-filter: blur(16px) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-lg) !important;
   }
 
   .border-slate-700,
-  .border-slate-600 {
+  .border-slate-600,
+  .border-blue-500\/30,
+  .border-blue-500 {
     border-color: var(--border-primary) !important;
-    border-width: 3px !important;
+    border-width: 1px !important;
   }
 
   .text-white {
     color: var(--text-primary) !important;
   }
 
-  .text-gray-300 {
-    color: var(--text-secondary) !important;
-  }
-
-  .text-gray-400 {
-    color: var(--text-secondary) !important;
-  }
-
-  .text-gray-500 {
-    color: var(--text-secondary) !important;
-  }
-
+  .text-gray-300,
+  .text-gray-400,
+  .text-gray-500,
   .text-gray-600 {
     color: var(--text-secondary) !important;
   }
@@ -150,51 +152,43 @@
     }
   }
 
-  /* Brutalist accent colors */
   .text-blue-400,
   .text-blue-500,
   .text-blue-300 {
-    color: var(--accent-cyan) !important;
+    color: var(--accent-primary) !important;
   }
 
   .hover\:text-blue-300:hover {
-    color: var(--accent-pink) !important;
+    color: var(--accent-primary) !important;
   }
 
   .bg-blue-600\/20 {
-    background-color: var(--accent-cyan) !important;
+    background-color: rgb(96 165 250 / 0.12) !important;
   }
 
   .group-hover\:bg-blue-600\/30 {
     .group:hover & {
-      background-color: var(--accent-pink) !important;
+      background-color: rgb(96 165 250 / 0.18) !important;
     }
   }
 
-  .border-blue-500\/30,
-  .border-blue-500 {
-    border-color: var(--border-primary) !important;
-    border-width: 3px !important;
+  .hover\:border-blue-500\/50:hover,
+  .hover\:border-gray-400:hover {
+    border-color: var(--accent-primary) !important;
   }
 
-  .hover\:border-blue-500\/50:hover {
-    border-color: var(--accent-cyan) !important;
-  }
-
-  /* Remove gradient backgrounds - use solid colors */
   .bg-gradient-to-br,
   .from-blue-600\/20,
   .to-purple-600\/20 {
-    background: var(--accent-pink) !important;
+    background: linear-gradient(135deg, rgb(37 99 235 / 0.12), rgb(13 148 136 / 0.08)) !important;
   }
 
-  /* Mobile menu background */
   .hover\:bg-slate-700:hover {
-    background-color: var(--bg-secondary) !important;
+    background-color: var(--bg-elevated) !important;
   }
 
   .bg-blue-600 {
-    background-color: var(--accent-yellow) !important;
+    background-color: var(--accent-primary) !important;
   }
 
   .placeholder-gray-500::placeholder {
@@ -207,49 +201,22 @@
     }
   }
 
-  .hover\:border-gray-400:hover {
-    border-color: var(--border-primary) !important;
-  }
-
-  /* Light mode specific overrides */
-  [data-theme="light"] .bg-slate-800\/80,
-  [data-theme="light"] .bg-slate-800\/30 {
-    background-color: var(--bg-primary) !important;
-    border-color: var(--border-primary) !important;
-  }
-
-  [data-theme="light"] .text-gray-400,
-  [data-theme="light"] .text-gray-500,
-  [data-theme="light"] .text-gray-600 {
-    color: var(--text-secondary) !important;
-  }
-
-  [data-theme="light"] .bg-blue-600\/20 {
-    background-color: var(--accent-cyan) !important;
-  }
-
-  [data-theme="light"] .text-blue-300,
-  [data-theme="light"] .text-blue-400 {
-    color: var(--accent-cyan) !important;
-  }
-
-  /* Brutalist button styles */
-  .btn-brutal {
-    border: 3px solid var(--border-primary);
-    border-radius: 0;
+  .btn-primary {
+    border: 1px solid var(--border-primary);
+    border-radius: 9999px;
     padding: 0.75rem 1.5rem;
-    font-weight: 700;
-    transition: all 0.1s linear;
-    box-shadow: 4px 4px 0 0 var(--shadow-color);
+    font-weight: 600;
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 16px 30px -24px var(--shadow-color);
   }
 
-  .btn-brutal:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 0 var(--shadow-color);
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 36px -24px var(--shadow-color);
   }
 
-  .btn-brutal:active {
-    transform: translate(4px, 4px);
-    box-shadow: none;
+  .btn-primary:active {
+    transform: translateY(0);
   }
 }
