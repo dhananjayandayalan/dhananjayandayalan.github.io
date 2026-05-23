@@ -16,6 +16,10 @@ interface ViewBox {
   height: number;
 }
 
+const MAP_BOUNDS: ViewBox = { x: 0, y: 0, width: 100, height: 50 };
+const MIN_VIEWBOX_WIDTH = 20;
+const MIN_VIEWBOX_HEIGHT = 10;
+
 const ExperienceMap = () => {
   const { theme } = useTheme();
   const [hoveredId, setHoveredId] = useState<number | null>(null);
@@ -44,7 +48,7 @@ const ExperienceMap = () => {
     []
   );
 
-  const defaultViewBox = useMemo(() => ({ x: 0, y: 0, width: 100, height: 50 }), []);
+  const defaultViewBox = useMemo(() => MAP_BOUNDS, []);
   const focusedViewBox = useMemo(() => {
     const currentPosition = getPosition(
       currentExperience.location.coordinates.lat,
@@ -64,27 +68,46 @@ const ExperienceMap = () => {
   const [viewBox, setViewBox] = useState<ViewBox>(focusedViewBox);
   const initialViewBoxRef = useRef<ViewBox>(focusedViewBox);
 
+  const clampViewBox = (nextViewBox: ViewBox): ViewBox => {
+    const width = Math.min(Math.max(nextViewBox.width, MIN_VIEWBOX_WIDTH), MAP_BOUNDS.width);
+    const height = Math.min(Math.max(nextViewBox.height, MIN_VIEWBOX_HEIGHT), MAP_BOUNDS.height);
+    const maxX = MAP_BOUNDS.x + MAP_BOUNDS.width - width;
+    const maxY = MAP_BOUNDS.y + MAP_BOUNDS.height - height;
+
+    return {
+      x: Math.min(Math.max(nextViewBox.x, MAP_BOUNDS.x), maxX),
+      y: Math.min(Math.max(nextViewBox.y, MAP_BOUNDS.y), maxY),
+      width,
+      height,
+    };
+  };
+
   const handleZoom = (delta: number) => {
     setViewBox((prev) => {
       const zoomFactor = delta > 0 ? 1.25 : 0.8;
-      const newWidth = prev.width * zoomFactor;
-      const newHeight = prev.height * zoomFactor;
-
-      if (newWidth < 20 || newWidth > 200) return prev;
-
       const centerX = prev.x + prev.width / 2;
       const centerY = prev.y + prev.height / 2;
+      const nextViewBox = clampViewBox({
+        x: centerX - (prev.width * zoomFactor) / 2,
+        y: centerY - (prev.height * zoomFactor) / 2,
+        width: prev.width * zoomFactor,
+        height: prev.height * zoomFactor,
+      });
+
+      if (
+        nextViewBox.x === prev.x &&
+        nextViewBox.y === prev.y &&
+        nextViewBox.width === prev.width &&
+        nextViewBox.height === prev.height
+      ) {
+        return prev;
+      }
 
       if (hoveredId !== null) {
         requestAnimationFrame(() => setForceUpdate((previous) => previous + 1));
       }
 
-      return {
-        x: centerX - newWidth / 2,
-        y: centerY - newHeight / 2,
-        width: newWidth,
-        height: newHeight,
-      };
+      return nextViewBox;
     });
   };
 
@@ -196,12 +219,12 @@ const ExperienceMap = () => {
       const dx = dragOffsetRef.current.x;
       const dy = dragOffsetRef.current.y;
 
-      setViewBox({
+      setViewBox(clampViewBox({
         x: initialViewBoxRef.current.x - dx,
         y: initialViewBoxRef.current.y - dy,
         width: initialViewBoxRef.current.width,
         height: initialViewBoxRef.current.height,
-      });
+      }));
 
       if (contentGroupRef.current) {
         contentGroupRef.current.style.transform = '';
@@ -239,26 +262,21 @@ const ExperienceMap = () => {
       e.preventDefault();
       const currentDistance = getTouchDistance(e.touches[0], e.touches[1]);
       const scale = initialDistance / currentDistance;
-
-      const newWidth = initialViewBoxForPinch.width * scale;
-      const newHeight = initialViewBoxForPinch.height * scale;
-
-      if (newWidth < 20 || newWidth > 200) return;
-
       const centerX = initialViewBoxForPinch.x + initialViewBoxForPinch.width / 2;
       const centerY = initialViewBoxForPinch.y + initialViewBoxForPinch.height / 2;
+      const nextViewBox = clampViewBox({
+        x: centerX - (initialViewBoxForPinch.width * scale) / 2,
+        y: centerY - (initialViewBoxForPinch.height * scale) / 2,
+        width: initialViewBoxForPinch.width * scale,
+        height: initialViewBoxForPinch.height * scale,
+      });
 
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
 
       rafRef.current = requestAnimationFrame(() => {
-        setViewBox({
-          x: centerX - newWidth / 2,
-          y: centerY - newHeight / 2,
-          width: newWidth,
-          height: newHeight,
-        });
+        setViewBox(nextViewBox);
 
         if (hoveredId !== null) {
           setForceUpdate((previous) => previous + 1);
@@ -398,32 +416,7 @@ const ExperienceMap = () => {
           onWheel={handleWheel}
           style={{ touchAction: 'none', willChange: 'contents' }}
         >
-          <defs>
-            <pattern
-              id="grid-pattern"
-              width="4"
-              height="4"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 4 0 L 0 0 0 4"
-                fill="none"
-                stroke={theme === 'dark' ? '#FFFFFF' : '#000000'}
-                strokeWidth="0.1"
-                opacity="0.2"
-              />
-            </pattern>
-          </defs>
-
           <g ref={contentGroupRef} style={{ willChange: isPanning ? 'transform' : 'auto' }}>
-            <rect
-              x="0"
-              y="0"
-              width="100"
-              height="50"
-              fill="url(#grid-pattern)"
-            />
-
             <image
               href="/world-map.svg"
               x="0"
