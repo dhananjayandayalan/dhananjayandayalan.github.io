@@ -1,33 +1,69 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import type { ContactFormData } from '../../types';
-
-const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  mobile: z.string().optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters')
-});
+import { contactSchema, type ContactFormInput, type ContactFormValues } from '@/lib/contact';
+import type { ContactApiResponse } from '../../types';
 
 const fieldClassName =
   'w-full rounded-2xl border border-[color:var(--border-primary)] bg-[color:var(--bg-secondary)] px-4 py-3 text-foreground-primary outline-none transition-smooth placeholder:text-foreground-subtle focus:border-accent-primary focus:ring-4 focus:ring-blue-100 dark:text-foreground-inverse dark:focus:ring-blue-500/15';
 
 const ContactForm = () => {
+  const [submitState, setSubmitState] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!submitState) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setSubmitState(null);
+    }, 5000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [submitState]);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset
-  } = useForm<ContactFormData>({
+  } = useForm<ContactFormInput, undefined, ContactFormValues>({
     resolver: zodResolver(contactSchema)
   });
 
-  const onSubmit = async (data: ContactFormData) => {
-    console.log('Form data:', data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    alert('Thank you for your message! I will get back to you soon.');
+  const onSubmit = async (data: ContactFormValues) => {
+    setSubmitState(null);
+
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = (await response.json()) as ContactApiResponse;
+
+    if (!response.ok) {
+      setSubmitState({
+        type: 'error',
+        message: result.message || 'Unable to send your message right now.'
+      });
+      return;
+    }
+
+    setSubmitState({
+      type: 'success',
+      message: result.message
+    });
     reset();
   };
 
@@ -150,9 +186,16 @@ const ContactForm = () => {
         )}
       </motion.button>
 
-      <p className="text-center text-sm text-foreground-muted dark:text-foreground-subtle">
-        Press Enter or click the button to submit
-      </p>
+      {submitState && (
+        <motion.p
+          className={`text-center text-sm ${submitState.type === 'success' ? 'text-emerald-600' : 'text-rose-500'}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          {submitState.message}
+        </motion.p>
+      )}
     </motion.form>
   );
 };

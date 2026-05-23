@@ -47,7 +47,7 @@ const ContactCard = () => {
             href={item.href}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noopener noreferrer' : undefined}
-            className="group flex items-center space-x-4 rounded-2xl border border-[color:var(--border-primary)] p-4 transition-smooth hover:-translate-y-0.5 hover:shadow-soft-sm"
+            className="group flex items-center gap-4 rounded-2xl border border-[color:var(--border-primary)] p-4 transition-smooth hover:-translate-y-0.5 hover:shadow-soft-sm"
             style={{
               backgroundColor: theme === 'light' ? 'var(--bg-secondary)' : 'rgba(15, 23, 42, 0.8)',
             }}
@@ -56,11 +56,13 @@ const ContactCard = () => {
             <div className={`rounded-2xl border border-[color:var(--border-primary)] p-3 ${item.iconBg}`}>
               {item.icon}
             </div>
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-foreground-muted dark:text-foreground-subtle">{item.label}</p>
-              <p className="font-medium text-foreground-primary dark:text-foreground-inverse">{item.value}</p>
+              <p className="break-words font-medium text-foreground-primary dark:text-foreground-inverse">
+                {item.value}
+              </p>
             </div>
-            <svg className="h-5 w-5 text-foreground-muted transition-smooth group-hover:text-accent-primary dark:text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <svg className="h-5 w-5 shrink-0 text-foreground-muted transition-smooth group-hover:text-accent-primary dark:text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </motion.a>

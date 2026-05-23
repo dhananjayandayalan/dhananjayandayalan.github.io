@@ -30,6 +30,10 @@ export interface ContactFormData {
   message: string;
 }
 
+export interface ContactApiResponse {
+  message: string;
+}
+
 export interface Skill {
   category: string;
   items: string[];
