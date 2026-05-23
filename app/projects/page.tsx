@@ -1,36 +1,18 @@
 'use client';
 
-import { useState, useMemo, useRef, useLayoutEffect } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from '@/components/projects/ProjectCard';
-import TabSwitch from '@/components/projects/TabSwitch';
-import { projectCategories } from '@/data/portfolio';
+import { projects } from '@/data/portfolio';
 
 export default function Projects() {
-  const [activeTab, setActiveTab] = useState(projectCategories[0]?.id || 'hobby');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const currentProjects = useMemo(() => {
-    const category = projectCategories.find(cat => cat.id === activeTab);
-    return category?.projects || [];
-  }, [activeTab]);
-
-  const tabs = useMemo(() =>
-    projectCategories.map(cat => ({ id: cat.id, name: cat.name })),
-    []
-  );
-
-  const handleTabChange = (tabId: string) => {
-    setActiveTab(tabId);
-    setCurrentIndex(0);
-    setDirection(0);
-  };
-
   const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+    enter: (slideDirection: number) => ({
+      x: slideDirection > 0 ? 1000 : -1000,
       opacity: 0
     }),
     center: {
@@ -38,9 +20,9 @@ export default function Projects() {
       x: 0,
       opacity: 1
     },
-    exit: (direction: number) => ({
+    exit: (slideDirection: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: slideDirection < 0 ? 1000 : -1000,
       opacity: 0
     })
   };
@@ -54,8 +36,8 @@ export default function Projects() {
     setDirection(newDirection);
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + newDirection;
-      if (nextIndex < 0) return currentProjects.length - 1;
-      if (nextIndex >= currentProjects.length) return 0;
+      if (nextIndex < 0) return projects.length - 1;
+      if (nextIndex >= projects.length) return 0;
       return nextIndex;
     });
   };
@@ -90,43 +72,38 @@ export default function Projects() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="mx-auto max-w-6xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.1, ease: 'linear' }}
-        className="text-center mb-12"
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="mb-12 text-center"
       >
-        <h1 className="text-4xl md:text-5xl font-black mb-4">
+        <h1 className="mb-4 text-4xl font-extrabold md:text-5xl">
           My <span className="text-gradient">Projects</span>
         </h1>
-        <p className="text-lg text-brutal-gray-dark dark:text-brutal-gray-light font-bold">
+        <p className="text-lg text-foreground-muted dark:text-foreground-subtle">
           A collection of my personal projects and work
         </p>
       </motion.div>
 
-      {/* Tab Switch */}
-      <TabSwitch tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
-
-      {/* Carousel Container */}
       <div className="relative">
-        {currentProjects.length > 0 ? (
+        {projects.length > 0 ? (
           <>
-            {/* Carousel */}
             <div
               ref={carouselRef}
-              className="relative min-h-[680px] max-[460px]:min-h-[760px] md:h-[550px] md:min-h-0 overflow-visible md:overflow-hidden"
+              className="relative min-h-[680px] overflow-visible max-[460px]:min-h-[760px] md:h-[550px] md:min-h-0 md:overflow-hidden"
             >
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
-                  key={`${activeTab}-${currentIndex}`}
+                  key={currentIndex}
                   custom={direction}
                   variants={slideVariants}
                   initial="enter"
                   animate="center"
                   exit="exit"
                   transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
+                    x: { type: 'spring', stiffness: 300, damping: 30 },
                     opacity: { duration: 0.2 }
                   }}
                   drag="x"
@@ -144,51 +121,49 @@ export default function Projects() {
                     }
                   }}
                   style={{ touchAction: 'pan-y' }}
-                  className="absolute inset-x-0 top-0 mx-auto w-full max-w-2xl px-4 cursor-grab active:cursor-grabbing md:inset-y-0"
+                  className="absolute inset-x-0 top-0 mx-auto w-full max-w-2xl cursor-grab px-4 active:cursor-grabbing md:inset-y-0"
                 >
-                  <ProjectCard project={currentProjects[currentIndex]} />
+                  <ProjectCard project={projects[currentIndex]} />
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* Navigation Arrows */}
-            {currentProjects.length > 1 && (
+            {projects.length > 1 && (
               <>
                 <button
-                  className="hidden lg:block absolute left-2 md:left-0 top-1/2 -translate-y-1/2 bg-brutal-yellow border-4 border-brutal-black dark:border-brutal-white text-brutal-black p-3 rounded-none z-10 shadow-brutal-md dark:shadow-brutal-md-light"
+                  className="absolute left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-[color:var(--border-primary)] bg-[color:var(--bg-secondary)] p-3 text-foreground-muted shadow-soft-md lg:block md:left-0 dark:text-foreground-subtle"
                   onClick={() => paginate(-1)}
                   aria-label="Previous project"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                    <path strokeLinecap="square" strokeLinejoin="miter" d="M15 19l-7-7 7-7" />
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <button
-                  className="hidden lg:block absolute right-2 md:right-0 top-1/2 -translate-y-1/2 bg-brutal-yellow border-4 border-brutal-black dark:border-brutal-white text-brutal-black p-3 rounded-none z-10 shadow-brutal-md dark:shadow-brutal-md-light"
+                  className="absolute right-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-[color:var(--border-primary)] bg-[color:var(--bg-secondary)] p-3 text-foreground-muted shadow-soft-md lg:block md:right-0 dark:text-foreground-subtle"
                   onClick={() => paginate(1)}
                   aria-label="Next project"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </>
             )}
 
-            {/* Indicators */}
-            {currentProjects.length > 1 && (
-              <div className="flex justify-center gap-2 mt-8">
-                {currentProjects.map((_, index) => (
+            {projects.length > 1 && (
+              <div className="mt-8 flex justify-center gap-2">
+                {projects.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => {
                       setDirection(index > currentIndex ? 1 : -1);
                       setCurrentIndex(index);
                     }}
-                    className={`h-3 rounded-none transition-brutal border-3 border-brutal-black dark:border-brutal-white ${
+                    className={`h-2.5 rounded-full transition-smooth ${
                       index === currentIndex
-                        ? 'w-8 bg-brutal-pink'
-                        : 'w-3 bg-brutal-white dark:bg-brutal-black hover:bg-brutal-cyan'
+                        ? 'w-8 bg-accent-primary'
+                        : 'w-2.5 bg-slate-300 hover:bg-accent-secondary dark:bg-slate-700'
                     }`}
                     aria-label={`Go to project ${index + 1}`}
                   />
@@ -196,28 +171,26 @@ export default function Projects() {
               </div>
             )}
 
-            {/* Counter */}
             <motion.div
-              className="text-center mt-6 text-brutal-black dark:text-brutal-white"
+              className="mt-6 text-center text-foreground-primary dark:text-foreground-inverse"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.1, ease: 'linear' }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
             >
-              <span className="text-lg font-black">
-                {currentIndex + 1} / {currentProjects.length}
+              <span className="text-lg font-semibold">
+                {currentIndex + 1} / {projects.length}
               </span>
             </motion.div>
 
-            {/* Instructions */}
-            {currentProjects.length > 1 && (
+            {projects.length > 1 && (
               <motion.p
-                className="text-center mt-4 text-brutal-gray-dark dark:text-brutal-gray-light text-sm font-bold"
+                className="mt-4 text-center text-sm text-foreground-muted dark:text-foreground-subtle"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.1, ease: 'linear' }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
               >
-                  <span className="hidden lg:inline">Drag or use arrows to navigate</span>
-                  <span className="lg:hidden">Drag to Navigate</span>
+                <span className="hidden lg:inline">Drag or use arrows to navigate</span>
+                <span className="lg:hidden">Drag to Navigate</span>
               </motion.p>
             )}
           </>
@@ -225,27 +198,27 @@ export default function Projects() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1, ease: 'linear' }}
-            className="flex flex-col items-center justify-center h-[400px] text-center bg-brutal-white dark:bg-brutal-black border-4 border-brutal-black dark:border-brutal-white rounded-none p-8 shadow-brutal-md dark:shadow-brutal-md-light"
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="flex h-[400px] flex-col items-center justify-center rounded-3xl border border-[color:var(--border-primary)] bg-[color:var(--bg-secondary)] p-8 text-center shadow-soft-md"
           >
             <svg
-              className="w-24 h-24 mb-6 text-brutal-gray-dark dark:text-brutal-gray-light"
+              className="mb-6 h-24 w-24 text-foreground-muted dark:text-foreground-subtle"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              strokeWidth={3}
+              strokeWidth={2}
             >
               <path
-                strokeLinecap="square"
-                strokeLinejoin="miter"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
               />
             </svg>
-            <h3 className="text-2xl font-black mb-2 text-brutal-black dark:text-brutal-white">
+            <h3 className="mb-2 text-2xl font-semibold text-foreground-primary dark:text-foreground-inverse">
               No Projects Yet
             </h3>
-            <p className="text-brutal-gray-dark dark:text-brutal-gray-light max-w-md font-bold">
-              Projects in this category will be added soon. Stay tuned!
+            <p className="max-w-md text-foreground-muted dark:text-foreground-subtle">
+              Projects will be added soon. Stay tuned.
             </p>
           </motion.div>
         )}

@@ -1,34 +1,38 @@
 import { motion } from 'framer-motion';
 import { skills } from '../../data/portfolio';
+import { useTheme } from '@/context/ThemeContext';
 
 const Skills = () => {
-  // Rotate through accent colors for skill category cards
-  const accentColors = ['bg-brutal-pink', 'bg-brutal-cyan', 'bg-brutal-yellow', 'bg-brutal-lime'];
+  const { theme } = useTheme();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {skills.map((skillCategory, index) => {
-        const bgColor = accentColors[index % accentColors.length];
-
         return (
           <motion.div
             key={skillCategory.category}
-            className={`${bgColor} border-4 border-brutal-black dark:border-brutal-white rounded-none p-6 shadow-brutal-md dark:shadow-brutal-md-light hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm dark:hover:shadow-brutal-sm-light transition-brutal`}
+            className="rounded-2xl border-2 border-[color:var(--border-primary)] p-6 shadow-soft-md"
+            style={{
+              backgroundColor:
+                theme === 'light'
+                  ? 'var(--bg-secondary)'
+                  : 'rgba(15, 23, 42, 0.8)',
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1, ease: 'linear' }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            <h3 className="text-xl font-black mb-4 text-brutal-black">
+            <h3 className="mb-4 inline-block border-b-2 border-accent-primary pb-1 text-xl font-semibold text-foreground-primary dark:text-foreground-inverse">
               {skillCategory.category}
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {skillCategory.items.map((skill) => (
                 <li
                   key={skill}
-                  className="text-brutal-black flex items-center font-semibold"
+                  className="flex items-start text-sm font-medium text-foreground-muted dark:text-foreground-subtle"
                 >
-                  <span className="w-2 h-2 bg-brutal-black border border-brutal-black mr-2 flex-shrink-0"></span>
-                  {skill}
+                  <span className="mr-3 flex-shrink-0 font-semibold text-accent-primary">-</span>
+                  <span>{skill}</span>
                 </li>
               ))}
             </ul>

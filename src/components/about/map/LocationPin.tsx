@@ -16,8 +16,8 @@ const LocationPin = ({ x, y, isHovered, onMouseEnter, onMouseLeave, onClick, del
 
   // Theme-aware colors
   const colors = {
-    default: theme === 'dark' ? '#76FF03' : '#00E5FF', // brutal-lime (dark) / brutal-cyan (light)
-    hovered: theme === 'dark' ? '#FFEB3B' : '#FF1493', // brutal-yellow (dark) / brutal-pink (light)
+    default: theme === 'dark' ? '#CBD5E1' : '#0F766E',
+    hovered: theme === 'dark' ? '#E2E8F0' : '#2563EB',
     stroke: theme === 'dark' ? '#FFFFFF' : '#000000',  // white (dark) / black (light)
   };
 

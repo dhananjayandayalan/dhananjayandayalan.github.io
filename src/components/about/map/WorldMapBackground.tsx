@@ -29,7 +29,7 @@ const WorldMapBackground = () => {
             width='100%'
             height='100%'
             fill='url(#grid)'
-            className='text-brutal-black dark:text-brutal-white'
+            className='text-foreground-primary dark:text-foreground-inverse'
           />
         </svg>
       </div>
